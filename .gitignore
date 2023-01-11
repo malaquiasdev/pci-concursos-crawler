@@ -241,4 +241,7 @@ terraform.rc
 # pupperteer
 puppeteer_data/
 
+# CSV
+*.csv
+
 # End of https://www.toptal.com/developers/gitignore/api/macos,terraform,node,serverless,linux,visualstudiocode
