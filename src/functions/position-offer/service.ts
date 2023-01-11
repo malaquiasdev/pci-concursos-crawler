@@ -2,10 +2,15 @@ import { URL, positions } from '../../configs/index';
 import { initBrowser } from '../../modules/browser';
 
 export async function crawlerJobPositionOffers() {
-  const jobs: Jobs[] = [];
-  const today = new Date();
   const browser = await initBrowser();
   const page = await browser.newPage();
+  const jobs = await getJobsByPostions(positions, page);
+  console.log(jobs);
+}
+
+async function getJobsByPostions(positions, page): Promise<Jobs[]> {
+  const jobs: Jobs[] = [];
+  const today = new Date();
   for (const position of positions) {
     const url = getURL(URL.jobPosition, position);
     await page.goto(url, { waitUntil: 'networkidle0' });
@@ -19,7 +24,7 @@ export async function crawlerJobPositionOffers() {
       }
     }
   }
-  console.log(jobs);
+  return jobs;
 }
 
 function getURL(baseUrl: string, category: string): string {
