@@ -1,5 +1,5 @@
 import { crawlerJobPositionOffers } from './service';
 
-export async function handler() {
+(async () => {
   await crawlerJobPositionOffers();
-}
+})();
