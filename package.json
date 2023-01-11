@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/malaquiasdev/pci-concursos-crawler#readme",
   "dependencies": {
+    "chrome-aws-lambda": "^10.1.0",
     "dotenv": "^16.0.3",
     "puppeteer": "^19.5.0",
     "puppeteer-extra": "^3.3.4",
@@ -28,6 +29,7 @@
     "@types/jest": "^29.2.5",
     "@types/node": "^18.11.18",
     "@types/objects-to-csv": "^1.3.1",
+    "@types/puppeteer": "^7.0.4",
     "@typescript-eslint/eslint-plugin": "^5.48.1",
     "@typescript-eslint/parser": "^5.48.1",
     "aws-sdk": "^2.1291.0",

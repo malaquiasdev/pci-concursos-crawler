@@ -1,14 +1,16 @@
-import { Browser } from 'puppeteer';
-import puppeteerExtra from 'puppeteer-extra';
-import pluginStealth from 'puppeteer-extra-plugin-stealth';
+import chromium from 'chrome-aws-lambda';
+import * as puppeteer from 'puppeteer';
 
-export async function initBrowser(headless: boolean): Promise<Browser> {
-  puppeteerExtra.use(pluginStealth());
-  const browser = await puppeteerExtra.launch({
-    userDataDir: 'puppeteer_data',
-    defaultViewport: null,
-    args: ['--start-fullscreen'],
-    headless,
+export async function initBrowser() {
+  if (process.env.AWS_LAMBDA_FUNCTION_VERSION) {
+    return puppeteer.launch({
+      args: chromium.args,
+      defaultViewport: chromium.defaultViewport,
+      executablePath: await chromium.executablePath,
+      headless: chromium.headless,
+    });
+  }
+  return puppeteer.launch({
+    headless: false,
   });
-  return browser;
 }
