@@ -1,44 +1,46 @@
-import ObjectsToCsv from 'objects-to-csv';
-import { URL, positions } from '../../configs/index';
+import { Page } from 'puppeteer';
+import { URL, positions, AWS } from '../../configs/index';
 import { initBrowser } from '../../modules/browser';
+import { saveFileCSV } from '../../modules/file';
 
 export async function crawlerJobPositionOffers() {
   console.log('crawlerJobPositionOffers STARTED');
   const browser = await initBrowser({ headless: true });
   const page = await browser.newPage();
-  const jobs = await getJobsByPostions(['engenheiro-sanitarista'], page);
+  const jobs = await getJobsByPostions(positions, page);
   console.log('jobs to convert into CSV', jobs.length);
   if (jobs.length > 0) {
-    const csv = await convertJobsToCSV(jobs);
-    console.log(csv);
+    await saveFileCSV(jobs, AWS.bucketPath);
   }
   await browser.close();
   console.log('crawlerJobPositionOffers SUCCEED');
 }
 
-async function getJobsByPostions(positions, page): Promise<Jobs[]> {
+async function getJobsByPostions(positions: string[], page: Page): Promise<Jobs[]> {
+  console.log('getJobsByPostions STARTED', positions.length);
   const jobs: Jobs[] = [];
   const today = new Date();
-  for (const position of positions) {
-    const url = getURL(URL.jobPosition, position);
-    console.log('url', url);
-    await page.goto(url, { waitUntil: 'networkidle0' });
-    const list = await crawlerJobPageElements(page);
-    for (const element of list) {
-      if (new Date(element.date) > today) {
-        jobs.push({
-          ...element,
-          category: position,
-        });
+  try {
+    for (const position of positions) {
+      const url = getURL(URL.jobPosition, position);
+      console.log('url', url);
+      await page.goto(url, { waitUntil: 'networkidle0' });
+      const list = await crawlerJobPageElements(page);
+      for (const element of list) {
+        if (new Date(element.date) > today) {
+          jobs.push({
+            ...element,
+            category: position,
+          });
+        }
       }
     }
+  } catch (error) {
+    console.error('getJobsByPostions FAILED', error);
+    return [];
   }
+  console.log('getJobsByPostions SUCCEED');
   return jobs;
-}
-
-async function convertJobsToCSV(jobs: Jobs[]): Promise<string> {
-  const csv = new ObjectsToCsv(jobs);
-  return csv.toString();
 }
 
 function getURL(baseUrl: string, category: string): string {
@@ -62,7 +64,7 @@ async function crawlerJobPageElements(page): Promise<Jobs[]> {
   );
 }
 
-interface Jobs {
+export interface Jobs {
   title: string;
   link: string;
   date: string;

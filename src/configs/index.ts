@@ -1,6 +1,10 @@
-export enum URL {
-  jobPosition = 'https://www.pciconcursos.com.br/vagas',
-}
+export const URL = {
+  jobPosition: 'https://www.pciconcursos.com.br/vagas',
+};
+
+export const AWS = {
+  bucketPath: '',
+};
 
 export const positions: string[] = [
   'geologia',
