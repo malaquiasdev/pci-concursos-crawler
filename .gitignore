@@ -238,4 +238,7 @@ terraform.rc
 # Support for Project snippet scope
 !.vscode/*.code-snippets
 
+# pupperteer
+puppeteer_data/
+
 # End of https://www.toptal.com/developers/gitignore/api/macos,terraform,node,serverless,linux,visualstudiocode
