@@ -1,7 +1,8 @@
 import chromium from 'chrome-aws-lambda';
 import * as puppeteer from 'puppeteer';
+import { Browser } from 'puppeteer';
 
-export async function initBrowser() {
+export async function initBrowser(params: LauncherParams): Promise<Browser> {
   if (process.env.AWS_LAMBDA_FUNCTION_VERSION) {
     return puppeteer.launch({
       args: chromium.args,
@@ -11,6 +12,10 @@ export async function initBrowser() {
     });
   }
   return puppeteer.launch({
-    headless: false,
+    headless: params.headless,
   });
+}
+
+interface LauncherParams {
+  headless: boolean;
 }
