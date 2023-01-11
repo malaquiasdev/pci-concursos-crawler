@@ -3,7 +3,7 @@ export const URL = {
 };
 
 export const AWS = {
-  bucketPath: '',
+  bucketPath: process.env.bucketPath || '',
 };
 
 export const positions: string[] = [
