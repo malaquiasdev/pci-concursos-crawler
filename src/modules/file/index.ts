@@ -11,12 +11,13 @@ export async function saveFileCSV(jobs: Jobs[], bucketPath: string): Promise<boo
       await csv.toDisk(key);
       return true;
     }
+    const csvString = await csv.toString();
     const s3 = new S3();
     const params = {
       Bucket: bucketPath,
       ACL: 'public-read',
       Key: key,
-      Body: csv.toString(),
+      Body: csvString,
       ContentType: 'text/csv',
     };
     await s3.putObject(params).promise();

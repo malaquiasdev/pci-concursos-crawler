@@ -1,8 +1,8 @@
-import { URL, positions, AWS } from '../../configs/index';
+import { URL, AWS } from '../../configs/index';
 import { initBrowser } from '../../modules/browser';
 import { saveFileCSV } from '../../modules/file';
 
-export async function crawlerJobPositionOffers() {
+export async function crawlerJobPositionOffers(positions: string[]) {
   console.log('crawlerJobPositionOffers STARTED');
   const browser = await initBrowser({ headless: true });
   const page = await browser.newPage();
