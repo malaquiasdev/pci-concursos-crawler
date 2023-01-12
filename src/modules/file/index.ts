@@ -5,8 +5,12 @@ import { AWS } from '../../configs';
 
 export async function saveFileCSV(jobs: Jobs[], bucketPath: string): Promise<boolean> {
   const key = getKey();
-  const csv = new ObjectsToCsv(jobs);
-  if (AWS.lambdaVersion) {
+  try {
+    const csv = new ObjectsToCsv(jobs);
+    if (!AWS.lambdaVersion) {
+      await csv.toDisk(key);
+      return true;
+    }
     const s3 = new S3();
     const params = {
       Bucket: bucketPath,
@@ -17,9 +21,10 @@ export async function saveFileCSV(jobs: Jobs[], bucketPath: string): Promise<boo
     };
     await s3.putObject(params).promise();
     return true;
+  } catch (error) {
+    console.error(error);
+    throw error;
   }
-  await csv.toDisk(key);
-  return true;
 }
 
 function getKey(): string {
