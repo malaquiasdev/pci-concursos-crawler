@@ -1,4 +1,3 @@
-import { Page } from 'puppeteer';
 import { URL, positions, AWS } from '../../configs/index';
 import { initBrowser } from '../../modules/browser';
 import { saveFileCSV } from '../../modules/file';
@@ -16,7 +15,7 @@ export async function crawlerJobPositionOffers() {
   console.log('crawlerJobPositionOffers SUCCEED');
 }
 
-async function getJobsByPostions(positions: string[], page: Page): Promise<Jobs[]> {
+async function getJobsByPostions(positions: string[], page): Promise<Jobs[]> {
   console.log('getJobsByPostions STARTED', positions.length);
   const jobs: Jobs[] = [];
   const today = new Date();

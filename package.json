@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "npx tsc",
+    "zip": "7z a -r function.zip ./dist/*  node_modules/",
+    "sendToLambda": "aws s3 cp function.zip s3://puppeteer-on-lambda-421521521 && aws lambda update-function-code --function-name puppeteer-on-lambda --s3-bucket puppeteer-on-lambda-421521521 --s3-key function.zip && rm function.zip"
   },
   "repository": {
     "type": "git",
@@ -19,11 +21,9 @@
   "homepage": "https://github.com/malaquiasdev/pci-concursos-crawler#readme",
   "dependencies": {
     "chrome-aws-lambda": "^10.1.0",
-    "dotenv": "^16.0.3",
+    "puppeteer-core": "^10.1.0",
     "objects-to-csv": "^1.3.6",
-    "puppeteer": "^19.5.0",
-    "puppeteer-extra": "^3.3.4",
-    "puppeteer-extra-plugin-stealth": "^2.11.1"
+    "aws-sdk": "^2.1291.0"
   },
   "devDependencies": {
     "@types/dotenv": "^8.2.0",
@@ -33,7 +33,7 @@
     "@types/puppeteer": "^7.0.4",
     "@typescript-eslint/eslint-plugin": "^5.48.1",
     "@typescript-eslint/parser": "^5.48.1",
-    "aws-sdk": "^2.1291.0",
+    "puppeteer": "^19.5.0",
     "eslint": "^8.31.0",
     "eslint-config-prettier": "^8.6.0",
     "eslint-plugin-prettier": "^4.2.1",

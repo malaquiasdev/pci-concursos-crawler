@@ -1,11 +1,12 @@
 import { S3 } from 'aws-sdk';
 import ObjectsToCsv from 'objects-to-csv';
 import { Jobs } from '../../functions/position-offer/service';
+import { AWS } from '../../configs';
 
 export async function saveFileCSV(jobs: Jobs[], bucketPath: string): Promise<boolean> {
   const key = getKey();
   const csv = new ObjectsToCsv(jobs);
-  if (process.env.AWS_LAMBDA_FUNCTION_VERSION) {
+  if (AWS.lambdaVersion) {
     const s3 = new S3();
     const params = {
       Bucket: bucketPath,
@@ -23,6 +24,6 @@ export async function saveFileCSV(jobs: Jobs[], bucketPath: string): Promise<boo
 
 function getKey(): string {
   const today = new Date();
-  const todayFormatted = new Intl.DateTimeFormat('pt-BR').format(today).replaceAll('/', '-');
+  const todayFormatted = new Intl.DateTimeFormat('pt-BR').format(today).split('/').join('-');
   return `jobs-offers-${todayFormatted}.csv`;
 }

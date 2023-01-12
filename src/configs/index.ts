@@ -4,6 +4,7 @@ export const URL = {
 
 export const AWS = {
   bucketPath: process.env.bucketPath || '',
+  lambdaVersion: process.env.AWS_LAMBDA_FUNCTION_VERSION,
 };
 
 export const positions: string[] = [
