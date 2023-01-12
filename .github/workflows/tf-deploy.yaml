@@ -29,7 +29,11 @@ jobs:
       - name: Install production dependecies
         run: npm install --production
       # the bluid flow is not redundant, it is necessary to get the small package size possible
-      - name: Deploy
+      - name: Terraform Init
+        id: init
+        working-directory: ./infra
+        run: terraform init -backend=true
+      - name: Terraform Deploy
         id: deploy
         working-directory: ./infra
         run: terraform apply -auto-approve
