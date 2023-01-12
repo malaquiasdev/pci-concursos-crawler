@@ -8,7 +8,7 @@ resource "aws_lambda_function" "position-offer-lambda" {
   s3_bucket        = var.s3_bucket_id
   s3_key           = var.s3_bucket_key
   source_code_hash = var.source_code_hash
-  role             = aws_iam_role.position-offer-crawler.arn
+  role             = aws_iam_role.position_offer_crawler.arn
   environment {
     variables = {
       bucketPath = var.bucket_path
