@@ -2,9 +2,9 @@ data "archive_file" "position_offer" {
   type        = "zip"
   output_path = "files/functions.zip"
   source_dir  = "../${path.module}/"
-  excludes    = setunion(
-    ["package.json", "package-lock.json","README.md", ".eslintrc",
-    ".editorconfig", ".eslintignore", ".gitignore", ".prettierrc",
+  excludes = setunion(
+    ["package.json", "package-lock.json", "README.md", ".eslintrc",
+      ".editorconfig", ".eslintignore", ".gitignore", ".prettierrc",
     "jest.config.js", "tsconfig.json"],
     fileset("../${path.module}/", "src/**"),
     fileset("../${path.module}/", "infra/**"),
@@ -16,7 +16,7 @@ module "bucket" {
   source              = "./data/bucket"
   bucket_path         = "${var.project_name}-e32e9f6a"
   lambdas_output_path = data.archive_file.position_offer.output_path
-  force_destroy       = false
+  force_destroy       = true
 }
 
 
