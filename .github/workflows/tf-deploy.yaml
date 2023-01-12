@@ -21,5 +21,8 @@ jobs:
         uses: hashicorp/setup-terraform@v1
       - uses: actions/setup-node@v3
         with:
-          node-version: 14
+          node-version: 16
+      - run: npm install
+      - run: npm run build
+      - run: rm -rf node_modules/
       - run: npm install --production
