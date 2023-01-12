@@ -22,7 +22,14 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 16
-      - run: npm install
-      - run: npm run build
-      - run: rm -rf node_modules/
-      - run: npm install --production
+      - name: Install nodejs dependecies and build
+        run: npm install && npm run build
+      - name: Remove node_modules with dev dependecies
+        run: rm -rf node_modules/
+      - name: Install production dependecies
+        run: npm install --production
+      # the bluid flow is not redundant, it is necessary to get the small package size possible
+      - name: Deploy
+        id: deploy
+        working-directory: ./infra
+        run: terraform apply -auto-approve
